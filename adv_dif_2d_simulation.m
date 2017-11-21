@@ -2,6 +2,7 @@
 
 X = adv_dif_2d(0, 50, [0:0.01:5])
 t=[0:0.01:5];
+save("./data/reg_data",'X')
 for i = 1:length(t)
 surf(X(:,:,i));
 zlim([0 1]);
