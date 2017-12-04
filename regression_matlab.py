@@ -40,18 +40,18 @@ f_xx_col = f_xx.flatten()
 f_yy_col = f_yy.flatten()
 partial = np.c_[f_xx_col, f_yy_col, f_x_col, f_y_col]
 
-###変化のない部分と外れ値をdeleteする
+### 変化のない部分と外れ値をdeleteする
 partial = np.delete(partial, np.where(np.absolute(f_t_col)<0.01) ,0)
 f_t_col = np.delete(f_t_col, np.where(np.absolute(f_t_col)<0.01))
+# partial = np.delete(partial, np.where(np.absolute(f_t_col)>1000) ,0)
+# f_t_col = np.delete(f_t_col, np.where(np.absolute(f_t_col)>1000))
 
+### 定義した偏微分方程式の残差プロットの表示
 # plt.scatter(f_t_col,1e-3*(partial[:,0]+partial[:,1])-0.15*partial[:,2]-0.02*partial[:,3]-f_t_col, s=1, c='purple', marker='s', label='Residual error')
 # plt.xlabel('f_t')
 # plt.ylabel('Residual error')
 # plt.savefig("./data/reg_mat0.png")
 # plt.show()
-
-# partial = np.delete(partial, np.where(np.absolute(f_t_col)>1000) ,0)
-# f_t_col = np.delete(f_t_col, np.where(np.absolute(f_t_col)>1000))
 
 #配列サイズ確認
 # print('f',f.shape)
@@ -78,7 +78,7 @@ print(pd.DataFrame({"Name":['f_xx', 'f_yy', 'f_x', 'f_y'],
 print("切片",reg.intercept_)
 print("R2",reg.score(partial, f_t_col))
 
-###残差プロット
+### 残差プロット
 X = reg.predict(partial)
 plt.scatter(f_t_col, X - f_t_col, s=10, c='purple', marker='s', label='Residual error')
 plt.hlines(y=0, xmin=-1000, xmax=1000, lw=2, color='red')
