@@ -11,6 +11,8 @@ with open(filePath, 'r') as readfile:
     data_json = json.load(readfile)
 scalar_fields = np.array(data_json, np.float)
 
+print(scalar_fields.shape)
+
 #標準化
 def zscore(x, axis = None):
     xmean = x.mean(axis=axis, keepdims=True)
@@ -19,7 +21,7 @@ def zscore(x, axis = None):
     return zscore
 
 #データ間の距離
-dt = 0.0006250000000000001 *10 #sec
+dt = 0.0006250000000000001 *100 *0.01 #sec
 dx = dy = 0.1 #m
 
 #データの勾配
@@ -36,7 +38,7 @@ f_x_col = f_x.flatten()
 f_y_col = f_y.flatten()
 f_xx_col = f_xx.flatten()
 f_yy_col = f_yy.flatten()
-partial = np.c_[f_xx_col, f_yy_col, f_y_col]
+partial = np.c_[f_xx_col, f_yy_col, f_x_col, f_y_col]
 
 ###変化のない部分と外れ値をdeleteする
 partial = np.delete(partial, np.where(np.absolute(f_t_col)<1) ,0)
@@ -67,7 +69,7 @@ print('|f_t_col| ave:',np.average(np.absolute(f_t_col)))
 reg.fit(partial,f_t_col)
 
 #回帰係数
-print(pd.DataFrame({"Name":['f_xx', 'f_yy','f_y'],
+print(pd.DataFrame({"Name":['f_xx', 'f_yy', 'f_x', 'f_y'],
                     "Coefficients":reg.coef_}).sort_values(by='Coefficients'))
 print("切片",reg.intercept_)
 print("R2",reg.score(partial, f_t_col))

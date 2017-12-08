@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 #Thermal diffusivity of steel
 D = 4.
-#plate size, mm
+#plate size, m
 w = h = 10.
 #intervals in x-, y- directions, m
 dx = dy = 0.1
@@ -12,7 +12,7 @@ Tcool, Thot = 300, 700
 
 nx, ny = int(w/dx), int(h/dy)
 dx2, dy2 = dx*dx, dy*dy
-dt = 1 * dx2 * dy2 / (2 * D * (dx2 + dy2)) #dt <= 1 * dx2 * dy2 / (2 * D * (dx2 + dy2))
+dt = 0.01 * dx2 * dy2 / (2 * D * (dx2 + dy2)) #dt <= 1 * dx2 * dy2 / (2 * D * (dx2 + dy2))
 print("dt:",dt)
 print("dx,dy",dx,dy)
 
@@ -40,12 +40,12 @@ def do_timestep(u0, u, vx,vy):
     return u0, u
 
 #timeSteps
-tSteps = 501
+tSteps = 50001
 dataList = []
 
 for m in range(tSteps):
     u0, u = do_timestep(u0, u, vx, vy)
-    if m % 10 == 0:
+    if m % 100 == 0:
         dataList.append(u.tolist())
 
 filePath = './data/convection-diffusion.json'
