@@ -18,8 +18,8 @@ def zscore(x, axis = None):
     return zscore
 
 #データ間の距離
-dt = 1 #sec
-dx = 1 #m
+dt = 0.1 #sec
+dx = 0.1 #m
 
 #データの勾配
 f_t = np.gradient(data, axis=0)/dt
@@ -33,16 +33,12 @@ f_x_col = f_x.flatten()
 f_xx_col = f_xx.flatten()
 partial = np.c_[f_xx_col, f_x_col]
 
-print("f_size:", f.shape)
-print("partial_size:", partial.shape)
-print("f_t_col_size:", f_t_col.shape)
-
 ###変化のない部分と外れ値をdeleteする
-partial = np.delete( partial, np.where(np.absolute(f)<0.1), 0 )
-f_t_col = np.delete( f_t_col, np.where(np.absolute(f)<0.1) )
+partial = np.delete( partial, np.where(np.absolute(f)<0.01), 0 )
+f_t_col = np.delete( f_t_col, np.where(np.absolute(f)<0.01) )
 f = np.delete( f, np.where(np.absolute(f)<0.1), 0 )
-partial = np.delete( partial, np.where(np.absolute(f)>0.9), 0 )
-f_t_col = np.delete( f_t_col, np.where(np.absolute(f)>0.9) )
+partial = np.delete( partial, np.where(np.absolute(f)>0.99), 0 )
+f_t_col = np.delete( f_t_col, np.where(np.absolute(f)>0.99) )
 f = np.delete( f, np.where(np.absolute(f)>0.9), 0 )
 
 print("partial_size:", partial.shape)
