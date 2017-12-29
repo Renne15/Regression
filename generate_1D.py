@@ -24,7 +24,7 @@ for t in range(t_size):
 
 # ### 移流拡散のプロット
 # for t in range(t_size):
-#     plt.plot( [x_split*x for x in range(x_size) ], phi[t,:] )
+#     plt.plot( [x_split*x for x in range(x_size) ], phi[t,:] , lw=5)
 #     plt.ylim([0,1])
 #     plt.draw()
 #     plt.pause(0.001)
